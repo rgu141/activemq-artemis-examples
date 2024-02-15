@@ -26,7 +26,7 @@ import javax.jms.TextMessage;
 
 import org.apache.qpid.jms.JmsConnectionFactory;
 
-public class AMQPQueueExample {
+public class NonSharedDurableSubQueue {
 
    public static void main(String[] args) throws Exception {
       Connection connection = null;
@@ -41,7 +41,7 @@ public class AMQPQueueExample {
          Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
          // Step 3. Create a sender
-         Queue queue = session.createQueue("exampleQueue");
+         Queue queue = session.createQueue("NonSharedDurableSubQueue");
          MessageProducer sender = session.createProducer(queue);
 
          // Step 4. send a few simple message
@@ -51,7 +51,7 @@ public class AMQPQueueExample {
 
          // Step 5. create a moving receiver, this means the message will be removed from the queue
          MessageConsumer consumer = session.createConsumer(queue);
-
+         MessageConsumer consumer1 = session.createConsumer(queue);  //Should throw error as queue can have maximum 1 consumer  (AMQ229200: Maximum Consumer Limit Reached on Queue)
          // Step 7. receive the simple message
          TextMessage m = (TextMessage) consumer.receive(5000);
          System.out.println("message = " + m.getText());
