@@ -47,7 +47,7 @@ public class Consumer {
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
             // Step 3. Create a sender
-            Queue queue = session.createQueue("NonDurableSubQueue");
+            Queue queue = session.createQueue("DisabledQueue");
             
             // Create connection
             connection.start();

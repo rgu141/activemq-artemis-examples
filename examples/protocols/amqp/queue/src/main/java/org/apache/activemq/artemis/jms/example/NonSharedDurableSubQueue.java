@@ -51,7 +51,7 @@ public class NonSharedDurableSubQueue {
 
          // Step 5. create a moving receiver, this means the message will be removed from the queue
          MessageConsumer consumer = session.createConsumer(queue);
-         MessageConsumer consumer1 = session.createConsumer(queue);  //Should throw error as queue can have maximum 1 consumer  (AMQ229200: Maximum Consumer Limit Reached on Queue)
+         //MessageConsumer consumer1 = session.createConsumer(queue);  //Should throw error as queue can have maximum 1 consumer  (AMQ229200: Maximum Consumer Limit Reached on Queue)
          // Step 7. receive the simple message
          TextMessage m = (TextMessage) consumer.receive(5000);
          System.out.println("message = " + m.getText());

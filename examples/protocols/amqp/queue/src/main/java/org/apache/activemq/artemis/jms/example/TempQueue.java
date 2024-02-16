@@ -21,12 +21,13 @@ import javax.jms.ConnectionFactory;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
+import javax.jms.TemporaryQueue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.qpid.jms.JmsConnectionFactory;
 
-public class AMQPQueueExample {
+public class TempQueue {
 
    public static void main(String[] args) throws Exception {
       Connection connection = null;
@@ -41,21 +42,13 @@ public class AMQPQueueExample {
          Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
          // Step 3. Create a sender
-         Queue queue = session.createQueue("FQQN");
+         Queue queue = session.createTemporaryQueue();
          MessageProducer sender = session.createProducer(queue);
 
          // Step 4. send a few simple message
-         sender.send(session.createTextMessage("Hello world "));
-
+         sender.send(session.createTextMessage("Sent message to the queue"));
          connection.start();
-
-         // Step 5. create a moving receiver, this means the message will be removed from the queue
-         MessageConsumer consumer = session.createConsumer(queue);
-
-         // Step 7. receive the simple message
-         TextMessage m = (TextMessage) consumer.receive(5000);
-         System.out.println("message = " + m.getText());
-
+         Thread.sleep(100);
       } finally {
          if (connection != null) {
             // Step 9. close the connection

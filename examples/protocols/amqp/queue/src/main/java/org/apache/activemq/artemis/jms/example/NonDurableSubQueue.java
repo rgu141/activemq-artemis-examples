@@ -45,7 +45,7 @@ public class NonDurableSubQueue {
          MessageProducer sender = session.createProducer(queue);
 
          // Step 4. send a few simple message
-         sender.send(session.createTextMessage("Hello world "));
+         sender.send(session.createTextMessage("Sent message to the queue"));
 
          connection.start();
       } finally {
