@@ -47,13 +47,15 @@ public class Consumer {
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
             // Step 3. Create a sender
-            Queue queue = session.createQueue("DisabledQueue");
+            Queue queue = session.createQueue("FilterQueueTopic::color.multi");
             
             // Create connection
             connection.start();
 
             // Create consumer
-            consumer = session.createConsumer(queue);
+            //consumer = session.createConsumer(queue);
+            //For Filter example - Set queue as FilterQueue, and before this, run FilterQueueTopic.java
+            consumer = session.createConsumer(queue, "color='red'");
 
             // Set up a message listener
             consumer.setMessageListener(new MessageListener() {
