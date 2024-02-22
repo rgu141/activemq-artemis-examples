@@ -148,7 +148,7 @@ under the License.
                      <goal>runClient</goal>
                   </goals>
                   <configuration> 
-                     <clientClass>org.apache.activemq.artemis.jms.example.AMQPQueueExample</clientClass> <!-- Change me for changing main file -->
+                     <clientClass>org.apache.activemq.artemis.jms.example.DivertExample</clientClass> <!-- Change me for changing main file -->
                   </configuration>
                </execution>
                <execution>

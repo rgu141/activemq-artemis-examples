@@ -26,38 +26,39 @@ import javax.jms.Message;
 import javax.jms.TextMessage;
 import javax.jms.MessageListener;
 import javax.jms.JMSException;
-import javax.jms.TopicSubscriber;
-import javax.jms.Topic;
 
 import org.apache.qpid.jms.JmsConnectionFactory;
 
-public class Consumer {
+public class ConsumerOrig {
     private static final Object lock = new Object();
 
     public static void main(String[] args) {
         Connection connection = null;
-        MessageConsumer subscriber = null;
+        MessageConsumer consumer = null;
         Session session = null;
         
-        ConnectionFactory connectionFactory = new JmsConnectionFactory("amqp://localhost:5672");
+        ConnectionFactory connectionFactory = new JmsConnectionFactory("amqp://localhost:1414");
         
         try {
             // Step 1. Create an amqp qpid 1.0 connection
-            connection = connectionFactory.createConnection("admin", "admin");
+            connection = connectionFactory.createConnection();
 
             // Step 2. Create a session
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Topic spyTopic = session.createTopic("spyTopic");
+
             // Step 3. Create a sender
-            subscriber = session.createConsumer(spyTopic);
+            Queue queue = session.createQueue("FilterQueueTopic::color.multi");
+            
             // Create connection
             connection.start();
 
             // Create consumer
             //consumer = session.createConsumer(queue);
             //For Filter example - Set queue as FilterQueue, and before this, run FilterQueueTopic.java
+            consumer = session.createConsumer(queue, "color='red'");
+
             // Set up a message listener
-            subscriber.setMessageListener(new MessageListener() {
+            consumer.setMessageListener(new MessageListener() {
                 @Override
                 public void onMessage(Message message) {
                     try {
@@ -78,7 +79,7 @@ public class Consumer {
             e.printStackTrace();
         } finally {
             try {
-                if (subscriber != null) subscriber.close();
+                if (consumer != null) consumer.close();
                 if (session != null) session.close();
                 if (connection != null) connection.close();
             } catch (JMSException e) {

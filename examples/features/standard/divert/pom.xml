@@ -31,8 +31,9 @@ under the License.
    <name>ActiveMQ Artemis JMS Divert Example</name>
 
    <properties>
-      <activemq.basedir>${project.basedir}/../../../..</activemq.basedir>
+      <activemq.basedir>C:/Users/RGU141/Programs/apache-artemis</activemq.basedir>
    </properties>
+
 
    <dependencies>
       <dependency>

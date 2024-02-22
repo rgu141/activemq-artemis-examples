@@ -60,12 +60,13 @@ public class DivertExample {
          // subscribers on
          // the New York server
          Topic newYorkPriceUpdates = ActiveMQJMSClient.createTopic("newYorkPriceUpdates");
-
+         String username = "admin";
+         String password = "admin";
          // Step 8. Perform a lookup on the Connection Factory on the London server
-         ConnectionFactory cfLondon = new ActiveMQConnectionFactory("tcp://localhost:61616");
+         ConnectionFactory cfLondon = new ActiveMQConnectionFactory("tcp://localhost:61616", username, password);
 
          // Step 9. Perform a lookup on the Connection Factory on the New York server
-         ConnectionFactory cfNewYork = new ActiveMQConnectionFactory("tcp://localhost:61617");
+         ConnectionFactory cfNewYork = new ActiveMQConnectionFactory("tcp://localhost:61617", username, password);
 
          // Step 10. Create a JMS Connection on the London server
          connectionLondon = cfLondon.createConnection();
@@ -91,7 +92,7 @@ public class DivertExample {
 
          // Step 16. Create another JMS subscriber which also subscribes to the spyTopic on the London server
          MessageConsumer spySubscriberB = sessionLondon.createConsumer(spyTopic);
-
+         Thread.sleep(10000);
          // Step 17. Create a JMS MessageConsumer which consumes orders from the order queue on the London server
          MessageConsumer orderConsumer = sessionLondon.createConsumer(orderQueue);
 
